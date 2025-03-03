@@ -13,3 +13,5 @@
 - Admin có thể quản lý user (block, reset mật khẩu).
 
 ## Hướng dẫn cài đặt
+## Link project đã triển khai của bạn
+https://flask-tiny-app-nq5o.onrender.com/
