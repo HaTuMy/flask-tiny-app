@@ -1,17 +1,37 @@
 .begin{
-    background-color: #ffe4c4;
-    font-size: 70%;
+    background-color: #17b32b;
+    font-size: 20px;
     font-family:Arial, Helvetica, sans-serif;
     padding: 3px;
-    color: rgb(39, 17, 136);
+    color: rgb(245, 244, 248);
 }
+
+/* Thanh navbar */
+
+.custom-navbar {
+    background-color: #17b32b !important;
+}
+
+.custom-navbar .nav-link {
+    font-size: 20px;
+    color: white !important; /* Giữ chữ màu trắng */
+}
+
+.custom-navbar .nav-link:hover {
+    color: #e1e42e !important; /* Đổi màu vàng khi hover */
+}
+
+.text-center{
+    color: #1723be;
+}
+/* Login  */
 .login-form {
-    width: 350px;
+    width: 400px;
     margin: 50px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    background: rgb(255, 255, 255);
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px rgba(12, 7, 7, 0.3);
 }
 
 .form-group {
@@ -31,7 +51,7 @@
 }
 
 .btn-primary {
-    background-color: #007bff;
+    background-color: #11326e;
     border: none;
     padding: 10px;
     font-size: 16px;
@@ -40,5 +60,35 @@
 }
 
 .btn-primary:hover {
+    background-color: #060c58;
+}
+
+/* Sign up form */
+.signup-form {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.signup-form h3 {
+    color: #0a043a;
+}
+
+.signup-form .form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.signup-form .btn-primary {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.signup-form .btn-primary:hover {
     background-color: #0056b3;
 }

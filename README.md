@@ -6,13 +6,10 @@
 - Mã sinh viên: 22645001
 
 ## Mô tả project
-Ứng dụng quản lý Blog và To-Do List với Flask.  
+Ứng dụng quản lý Blog với Flask.  
 - Người dùng có thể đăng ký, đăng nhập.
-- Blog: Đăng bài viết, chỉnh sửa, xóa bài viết.
-- To-Do List: Thêm, xóa và đánh dấu công việc đã hoàn thành.
+- Blog: Đăng bài viết, xóa bài viết,comment, like.
 - Admin có thể quản lý user (block, reset mật khẩu).
 
 ## Hướng dẫn cài đặt
 
-## Link project đã triển khai của bạn
-https://flask-tiny-app-nq5o.onrender.com/
