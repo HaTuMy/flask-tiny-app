@@ -1,0 +1,44 @@
+.begin{
+    background-color: #ffe4c4;
+    font-size: 70%;
+    font-family:Arial, Helvetica, sans-serif;
+    padding: 3px;
+    color: rgb(39, 17, 136);
+}
+.login-form {
+    width: 350px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.input-group-text {
+    background: #f8f9fa;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid #ced4da;
+    padding: 10px;
+}
+
+.form-control {
+    border-radius: 0 5px 5px 0;
+    border: 1px solid #ced4da;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
