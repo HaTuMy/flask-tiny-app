@@ -2,6 +2,9 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for,
 from flask_login import login_required, current_user
 from .models import Post, User, Comment, Like
 from . import db
+from werkzeug.security import generate_password_hash
+import random
+import string
 
 views = Blueprint("views", __name__)
 
@@ -15,6 +18,49 @@ def home():
     return render_template("home.html", user=current_user, posts=posts)
 
 
+# Route trang Admin
+@views.route("/admin")
+@login_required
+def admin():
+    if not current_user.is_admin:
+        flash("Bạn không có quyền truy cập vào trang Admin!", category="error")
+        return redirect(url_for("views.home"))
+    
+    users = User.query.all()
+    return render_template("admin.html", users=users, user=current_user)
+
+# Route khóa/mở khóa user
+@views.route("/block-user/<int:user_id>")
+@login_required
+def block_user(user_id):
+    if not current_user.is_admin:
+        flash("Bạn không có quyền thực hiện thao tác này!", category="error")
+        return redirect(url_for("views.admin"))
+
+    user = User.query.get(user_id)
+    if user:
+        user.is_blocked = not user.is_blocked
+        db.session.commit()
+        flash(f"User {user.username} đã được {'bị khóa' if user.is_blocked else 'mở khóa'}.", category="success")
+    
+    return redirect(url_for("views.admin"))
+
+# Route reset mật khẩu
+@views.route("/reset-password/<int:user_id>")
+@login_required
+def reset_password(user_id):
+    if not current_user.is_admin:
+        flash("Bạn không có quyền thực hiện thao tác này!", category="error")
+        return redirect(url_for("views.admin"))
+
+    user = User.query.get(user_id)
+    if user:
+        new_password = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+        user.password = generate_password_hash(new_password, method='pbkdf2:sha256')
+        db.session.commit()
+        flash(f"Mật khẩu của {user.username} đã được reset thành: {new_password}", category="success")
+    
+    return redirect(url_for("views.admin"))
 @views.route("/create-post", methods=['GET', 'POST'])
 @login_required
 def create_post():

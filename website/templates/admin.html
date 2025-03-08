@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Admin Panel - Quản lý User</h1>
+    <br>
+
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {% if user.is_blocked %}
+                            <span class="badge bg-danger">Bị khóa</span>
+                        {% else %}
+                            <span class="badge bg-success">Hoạt động</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('views.block_user', user_id=user.id) }}" class="btn btn-warning btn-sm">
+                            {% if user.is_blocked %}Mở khóa{% else %}Khóa{% endif %}
+                        </a>
+                        <a href="{{ url_for('views.reset_password', user_id=user.id) }}" class="btn btn-primary btn-sm">
+                            Reset Mật khẩu
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
