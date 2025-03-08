@@ -11,11 +11,18 @@ views = Blueprint("views", __name__)
 
 @views.route("/")
 @views.route("/home")
-@login_required
 def home():
+    if not current_user.is_authenticated:
+        return redirect(url_for('views.welcome'))  # Chuyển hướng nếu chưa đăng nhập
+    
     page = request.args.get('page', 1, type=int)
-    posts = Post.query.order_by(Post.date_created.desc()).paginate(page=page, per_page=5)
+    posts = Post.query.paginate(page=page, per_page=10)
     return render_template("home.html", user=current_user, posts=posts)
+
+
+@views.route("/welcome")
+def welcome():
+    return render_template("welcome.html", user=current_user)
 
 
 # Route trang Admin
@@ -89,6 +96,8 @@ def delete_post(id):
     elif current_user.id != post.author:
         flash('You do not have permission to delete this post.', category='error')
     else:
+        for comment in post.comments:
+            db.session.delete(comment)
         db.session.delete(post)
         db.session.commit()
         flash('Post deleted.', category='success')
@@ -143,6 +152,19 @@ def delete_comment(comment_id):
         db.session.commit()
 
     return redirect(url_for('views.home'))
+
+
+@views.route("/delete-selected-posts", methods=["POST"])
+@login_required
+def delete_selected_posts():
+    selected_post_ids = request.form.getlist("selected_posts")  # Lấy danh sách ID bài viết
+    if selected_post_ids:
+        Post.query.filter(Post.id.in_(selected_post_ids), Post.author == current_user.id).delete(synchronize_session=False)
+        db.session.commit()
+        flash("Các bài viết đã được xóa thành công!", "success")
+    else:
+        flash("Không có bài viết nào được chọn để xóa!", "warning")
+    return redirect(url_for("views.home"))
 
 
 @views.route("/like-post/<post_id>", methods=['POST'])

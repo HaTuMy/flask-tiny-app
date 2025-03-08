@@ -1,44 +1,122 @@
-{% extends "base.html" %} {% block title %}Sign Up{% endblock %} {% block
-    content %}
-    <form method="POST">
-      <h3 align="center">Sign Up</h3>
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          class="form-control"
-          placeholder="Enter Email"
-        />
-        <label for="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          class="form-control"
-          placeholder="Enter Username"
-        />
-        <label for="password1">Password</label>
-        <input
-          type="password"
-          id="password1"
-          name="password1"
-          class="form-control"
-          placeholder="Enter Password"
-        />
-        <label for="password2">Password Again</label>
-        <input
-          type="password"
-          id="password2"
-          name="password2"
-          class="form-control"
-          placeholder="Enter Password Again"
-        />
-        <br />
-        <div align="center">
-          <button class="btn btn-primary" type="submit">Sign Up</button>
+{% extends "base.html" %}
+
+{% block title %}
+    Sign Up
+{% endblock %}
+
+{% block content %}
+    <style>
+        /* Đặt ảnh nền */
+        body {
+            background: url("https://source.unsplash.com/1600x900/?nature,light") no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Căn giữa nội dung theo chiều dọc */
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Hộp chứa form sign up */
+        .signup-box {
+            background: rgba(202, 219, 226, 0.7);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+            max-width: 450px;
+            width: 90%;
+            color: rgb(22, 18, 18);
+            text-align: center;
+        }
+
+        /* Tiêu đề */
+        .signup-box h3 {
+            color: #1059c7;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Input field */
+        .form-group label {
+            display: block;
+            text-align: left;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: rgb(4, 8, 48);
+            font-size: 1rem;
+            padding: 12px;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        /* Placeholder màu trắng */
+        .form-control::placeholder {
+            color: rgba(31, 21, 21, 0.7);
+        }
+
+        /* Viền khi focus */
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid white;
+            outline: none;
+        }
+
+        /* Nút Sign Up */
+        .btn-signup {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 8px;
+            width: 100%;
+            margin-top: 15px;
+            transition: 0.3s ease-in-out;
+        }
+
+        /* Hiệu ứng hover */
+        .btn-signup:hover {
+            background: linear-gradient(135deg, #fad0c4, #ff9a9e);
+            transform: scale(1.05);
+        }
+    </style>
+
+    <div class="wrapper">
+        <div class="signup-box">
+            <h3>Đăng ký tài khoản</h3>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required />
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required />
+                </div>
+                <div class="form-group">
+                    <label for="password1">Password</label>
+                    <input type="password" id="password1" name="password1" class="form-control" placeholder="Enter your password" required />
+                </div>
+                <div class="form-group">
+                    <label for="password2">Confirm Password</label>
+                    <input type="password" id="password2" name="password2" class="form-control" placeholder="Re-enter your password" required />
+                </div>
+                <div class="form-group text-center">
+                    <button class="btn-signup" type="submit">Sign Up</button>
+                </div>
+            </form>
         </div>
-      </div>
-    </form>
-    {% endblock %}
+    </div>
+{% endblock %}

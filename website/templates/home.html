@@ -3,103 +3,201 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1 align="center">Posts</h1>
+    <style>
+            /* Card - tạo hiệu ứng nổi bật và bo góc */
+        .card {
+            border-radius: 10px; /* Bo góc cho card */
+            transition: all 0.3s ease-in-out; /* Hiệu ứng chuyển động */
+            background-color: #ffffff; /* Màu nền sáng */
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1); /* Độ bóng nhẹ */
+        }
+
+        .card:hover {
+            box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.2); /* Khi hover, độ bóng mạnh hơn */
+            transform: translateY(-5px); /* Dịch chuyển card lên */
+        }
+
+        .card-header.bg-light.text-white.d-flex.justify-content-between.align-items-center {
+            background-color: #343a40; /* Màu nền xám tối */
+            color: #ffffff; /* Màu chữ trắng */
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3); /* Bóng đổ mạnh */
+            font-weight: bold;
+        }
+        
+
+        /* Icon nút like */
+        .fas, .far {
+            font-size: 1.2rem; /* Kích thước icon */
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .fas.fa-thumbs-up.text-warning {
+            color: #ffcc00; /* Màu vàng khi like */
+        }
+
+        .far.fa-thumbs-up.text-white {
+            color: #888888; /* Màu xám khi chưa like */
+        }
+
+        .fas.fa-thumbs-up:hover, .far.fa-thumbs-up:hover {
+            transform: scale(1.2); /* Hiệu ứng phóng to khi hover */
+            color: #ffcc00; /* Chuyển màu vàng khi hover */
+        }
+
+        /* Nút Like - Tạo hiệu ứng đẹp mắt khi nhấn */
+        .btn-group .btn {
+            background-color: #007bff; /* Màu nền của nút */
+            color: #fff; /* Màu chữ trắng */
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-group .btn:hover {
+            background-color: #0056b3; /* Màu nền khi hover */
+        }
+
+        /* Đối với các liên kết */
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a:hover {
+            color: #374655; /* Màu của liên kết khi hover */
+        }
+
+        /* Nút "Create New Post" */
+        .btn-success {
+            background-color: #28a745; /* Màu xanh cho nút tạo bài mới */
+            border-radius: 20px;
+            padding: 10px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .btn-success:hover {
+            background-color: #218838; /* Màu xanh đậm khi hover */
+        }
+
+        /* Nút "Comment" */
+        .btn-primary {
+            background-color: #007bff;
+            border-radius: 20px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        /* Thêm khoảng cách và điều chỉnh các phần tử */
+        .card-body {
+            padding: 20px; /* Khoảng cách trong card body */
+        }
+
+        .card-footer {
+            font-size: 0.9rem;
+            color: #888;
+            padding: 10px 20px;
+            background-color: #f9f9f9;
+        }
+
+    </style>
+
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Posts</h1>
+        
+        {% if user.is_authenticated %}
+            <div class="text-center mb-4">
+                <a href="/create-post" class="btn btn-success btn-lg shadow">➕ Create New Post</a>
+            </div>
+        {% endif %}
     
-    <!-- Nút Tạo Post -->
-    {% if user.is_authenticated %}
-        <div class="text-center mb-4">
-            <a href="/create-post" class="btn btn-success btn-lg">Create New Post</a>
-        </div>
-    {% endif %}
-    
-    <div id="posts">
-        {% for post in posts.items %}
-            <div class="card border-dark">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <a href="/posts/{{ post.user.username }}">{{ post.user.username }}</a>
-                    <div>
-                        <span id="likes-count-{{ post.id }}">
-                            {{ post.likes|length }}
-                        </span>
-                        {% if user.id in post.likes|map(attribute="author")|list %}
-                            <i class="fas fa-thumbs-up" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
-                        {% else %}
-                            <i class="far fa-thumbs-up" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
-                        {% endif %}
-                        {% if user.id == post.author %}
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/delete-post/{{ post.id }}" class="dropdown-item">Delete</a></li>
-                                </ul>
+        <form id="delete-selected-form" action="{{ url_for('views.delete_selected_posts') }}" method="POST">
+            <div id="posts">
+                {% for post in posts.items %}
+                    <div class="card shadow-sm mb-4 border-0">
+                        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                {% if user.id == post.author %}
+                                    <input type="checkbox" class="form-check-input me-2 delete-checkbox" name="selected_posts" value="{{ post.id }}">
+                                {% endif %}
+                                <a href="/posts/{{ post.user.username }}" class="text-warning fw-bold">{{ post.user.username }}</a>
                             </div>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="card-text">{{ post.text }}</div>
-                    <br />
-                    <div class="collapse" id="comments-{{ post.id }}">
-                        <div class="card">
-                            <div class="card-body" id="comments-expanded-{{ post.id }}">
-                                {% for comment in post.comments %}
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <a href="/posts/{{ comment.user.username }}">{{ comment.user.username }}</a>: {{ comment.text }}
-                                        </div>
-                                        <div>
-                                            <small class="text-muted">{{ comment.date_created }}</small>
-                                            {% if user.id == comment.author or user.id == post.author %}
-                                                <div class="btn-group">
-<button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown"></button>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a href="/delete-comment/{{ comment.id }}" class="dropdown-item">Delete</a></li>
-                                                    </ul>
-                                                </div>
-                                            {% endif %}
-                                        </div>
+                            <div>
+                                <span id="likes-count-{{ post.id }}" class="me-2">{{ post.likes|length }}</span>
+                                {% if user.id in post.likes|map(attribute="author")|list %}
+                                    <i class="fas fa-thumbs-up text-warning" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
+                                {% else %}
+                                    <i class="far fa-thumbs-up text-white" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
+                                {% endif %}
+                                {% if user.id == post.author %}
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-bs-toggle="dropdown"></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="/delete-post/{{ post.id }}" class="dropdown-item text-danger">🗑 Delete</a></li>
+                                        </ul>
                                     </div>
-                                {% endfor %}
+                                {% endif %}
                             </div>
                         </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ post.text }}</p>
+                        </div>
+                        <div class="card-footer text-muted text-end">
+                            {{ post.date_created }}
+                        </div>
                     </div>
-                    <p class="card-text">
-                        {% if post.comments|length > 0 %}
-                            <a data-bs-toggle="collapse" href="#comments-{{ post.id }}" role="button">
-                                <small>View {{ post.comments|length }} Comments</small>
-                            </a>
-                        {% else %}
-                            <small class="text-muted">No Comments</small>
-                        {% endif %}
-                    </p>
-                    <form class="input-group mb-3" method="POST" action="/create-comment/{{ post.id }}">
-                        <input type="text" id="text" name="text" class="form-control" placeholder="Comment something!" />
-                        <button type="submit" class="btn btn-primary">Comment</button>
-                    </form>
-                </div>
-                <div class="card-footer text-muted">{{ post.date_created }}</div>
+                {% endfor %}
             </div>
-            <br />
-        {% endfor %}
+    
+            <!-- Nút xóa tất cả bài viết đã chọn -->
+            <div class="text-center mt-3">
+                <button type="submit" id="delete-selected-btn" class="btn btn-danger btn-lg shadow" style="display: none;" onclick="return confirmDeleteSelected();">
+                    🗑 Xóa Tất Cả Bài Viết Đã Chọn
+                </button>
+            </div>
+        </form>
+    
+        <!-- Pagination -->
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if posts.has_prev %}
+                    <li class="page-item"><a href="{{ url_for('views.home', page=posts.prev_num) }}" class="page-link">&laquo; Previous</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&laquo; Previous</span></li>
+                {% endif %}
+                <li class="page-item disabled"><span class="page-link">Page {{ posts.page }} of {{ posts.pages }}</span></li>
+                {% if posts.has_next %}
+                    <li class="page-item"><a href="{{ url_for('views.home', page=posts.next_num) }}" class="page-link">Next &raquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">Next &raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
-
-    <!-- Pagination -->
-    <div class="pagination">
-        <ul class="pagination">
-            {% if posts.has_prev %}
-                <li><a href="{{ url_for('views.home', page=posts.prev_num) }}" class="page-link">Previous</a></li>
-            {% else %}
-                <li class="disabled"><a href="#" class="page-link">Previous</a></li>
-            {% endif %}
-
-            <li class="disabled"><span class="page-link">{{ posts.page }} / {{ posts.pages }}</span></li>
-
-            {% if posts.has_next %}
-                <li><a href="{{ url_for('views.home', page=posts.next_num) }}" class="page-link">Next</a></li>
-            {% else %}
-                <li class="disabled"><a href="#" class="page-link">Next</a></li>
-            {% endif %}
-        </ul>
-    </div>
-
+    
+    <!-- Script xử lý hiển thị nút xóa -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkboxes = document.querySelectorAll(".delete-checkbox");
+            const deleteButton = document.getElementById("delete-selected-btn");
+    
+            function updateDeleteButton() {
+                const checked = Array.from(checkboxes).some(cb => cb.checked);
+                deleteButton.style.display = checked ? "block" : "none";
+            }
+    
+            checkboxes.forEach(cb => cb.addEventListener("change", updateDeleteButton));
+        });
+    
+        function confirmDeleteSelected() {
+            return confirm("⚠️ Bạn có chắc chắn muốn xóa tất cả bài viết đã chọn? Hành động này không thể hoàn tác!");
+        }
+    </script>
+    
 {% endblock %}

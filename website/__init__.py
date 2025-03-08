@@ -12,6 +12,7 @@ def create_app():
     app.config['SECRET_KEY'] = "helloworld"
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
+    
     migrate = Migrate(app, db)
     from .views import views
     from .auth import auth

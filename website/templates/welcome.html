@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+    <style>
+        /* Đặt ảnh nền */
+        body {
+            background: url("https://th.bing.com/th/id/R.a36a3110c7e09452d036103f27e24a31?rik=WGA8wOfOXvrwwg&pid=ImgRaw&r=0") no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Căn giữa nội dung theo chiều dọc */
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        /* Hộp chứa nội dung */
+        .welcome-box {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        /* Tiêu đề nổi bật */
+        .welcome-box h1 {
+            font-size: 2.8rem;
+            font-weight: bold;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+            margin-bottom: 15px;
+        }
+
+        /* Đoạn văn */
+        .welcome-box p {
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        /* Nút đăng nhập */
+        .btn-login {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: 0.3s ease-in-out;
+        }
+
+        /* Hiệu ứng hover */
+        .btn-login:hover {
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            transform: scale(1.05);
+        }
+    </style>
+
+    <div class="wrapper">
+        <div class="welcome-box">
+            <h1>Chào mừng bạn!</h1>
+            <p>Hãy đăng nhập để khám phá những nội dung hấp dẫn.</p>
+            <br>
+            <a href="/login" class="btn-login">Đăng nhập</a>
+        </div>
+    </div>
+{% endblock %}
