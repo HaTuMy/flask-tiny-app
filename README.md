@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # flask-tiny-app
 ## Thông tin nhóm
 - Họ tên sv1: Lê Hà Tú My
@@ -13,3 +14,6 @@
 
 ## Hướng dẫn cài đặt
 
+=======
+# flask-tiny-app
+>>>>>>> c56291c4cbb300c5514b1415ea162dbc164ac63a
