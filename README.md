@@ -12,7 +12,7 @@
 - Blog: Đăng bài viết, xóa bài viết,comment, like.
 - Admin có thể quản lý user (block, reset mật khẩu).
 
-## *Link web log : https://flask-tiny.onrender.com/welcome*
+### *Link web log : https://flask-tiny.onrender.com/welcome*
 
 ## Hướng dẫn cài đặt
 1. **Clone repo về máy tính của bạn**:
