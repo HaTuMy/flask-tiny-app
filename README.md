@@ -13,6 +13,51 @@
 - Admin có thể quản lý user (block, reset mật khẩu).
 
 ## Hướng dẫn cài đặt
+1. **Clone repo về máy tính của bạn**:
+
+    ```bash
+    git clone https://github.com/HaTuMy/flask-tiny-app.git
+    cd flask-tiny-app
+    ```
+
+2. **Tạo môi trường ảo** (nếu chưa có):
+
+    - Trên Windows:
+
+      ```bash
+      python -m venv venv
+      .\venv\Scripts\activate
+      ```
+
+    - Trên macOS/Linux:
+
+      ```bash
+      python3 -m venv venv
+      source venv/bin/activate
+      ```
+
+3. **Cài đặt các thư viện phụ thuộc**:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+    Nếu bạn chưa có `requirements.txt`, bạn có thể tạo file này bằng cách chạy:
+
+    ```bash
+    pip freeze > requirements.txt
+    ```
+
+### 3. Chạy ứng dụng
+Hướng dẫn chạy ứng dụng Flask.
+
+```markdown
+## Chạy ứng dụng
+
+Sau khi cài đặt xong, bạn có thể chạy ứng dụng bằng cách:
+
+```bash
+flask run
 
 =======
 # flask-tiny-app
