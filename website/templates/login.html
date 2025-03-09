@@ -8,8 +8,9 @@
     <style>
         /* Đặt ảnh nền */
         body {
-            background: url("https://source.unsplash.com/1600x900/?technology,abstract") no-repeat center center fixed;
+            background: url("https://th.bing.com/th/id/R.a36a3110c7e09452d036103f27e24a31?rik=WGA8wOfOXvrwwg&pid=ImgRaw&r=0") no-repeat center center fixed;
             background-size: cover;
+            color: white;
             font-family: 'Arial', sans-serif;
         }
 
@@ -91,6 +92,8 @@
             background: linear-gradient(135deg, #00f2fe, #4facfe);
             transform: scale(1.05);
         }
+        
+        
     </style>
 
     <div class="wrapper">
@@ -108,6 +111,9 @@
                 <div class="form-group text-center mt-4">
                     <button class="btn-login" type="submit">Login</button>
                 </div>
+                <div class="signup-link mt-3">
+                    <p>Bạn chưa có tài khoản? <a href="{{ url_for('auth.sign_up') }}" class="btn-signup">Đăng kí ngay</a></p>
+                </div>                    
             </form>
         </div>
     </div>
