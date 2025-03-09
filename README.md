@@ -1,8 +1,8 @@
-<<<<<<< HEAD
 # flask-tiny-app
 ## Thông tin nhóm
 - Họ tên sv1: Lê Hà Tú My
 - Mã sinh viên: 22648801
+---------------------------------
 - Họ tên sv2 : Nguyễn Quang Mạnh
 - Mã sinh viên: 22645001
 
@@ -17,4 +17,4 @@
 =======
 # flask-tiny-app
 **link web log flask tiny app**
-https://flask-tiny.onrender.com
+https://flask-tiny.onrender.com/welcome
