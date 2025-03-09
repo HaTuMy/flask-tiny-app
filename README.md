@@ -60,6 +60,5 @@ Sau khi cài đặt xong, bạn có thể chạy ứng dụng bằng cách:
 
 ```bash
 flask run
-```
 ======
 
