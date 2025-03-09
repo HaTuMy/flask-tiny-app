@@ -1,64 +1,155 @@
-{% extends "base.html" %} 
-{% block title %}Home{% endblock %} 
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
+  <style>
+    /* Cấu trúc thẻ bài đăng */
+    .card {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Hiệu ứng hover */
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Header của bài đăng */
+    .card-header {
+      background-color: #343a40;
+      color: #fff;
+      padding: 15px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #495057;
+    }
+
+    /* Tên người dùng */
+    .user-link {
+      font-size: 1.1rem;
+      color: #ffc107;
+      text-decoration: none;
+    }
+
+    .user-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Nút Like */
+    .like-button {
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .like-button:hover {
+      transform: scale(1.2);
+    }
+
+    /* Body của bài đăng */
+    .card-body {
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .card-text {
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    /* Phần bình luận */
+    .comment-box {
+      margin-top: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .comment-box a {
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    /* Input bình luận */
+    .form-control {
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+
+    /* Nút bình luận */
+    .btn-comment {
+      background: #17a2b8;
+      color: white;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-weight: bold;
+    }
+
+    /* Footer của bài đăng */
+    .card-footer {
+      background: #f1f1f1;
+      text-align: right;
+      padding: 10px;
+      color: #777;
+    }
+
+    /* Nút "Tạo bài đăng" */
+    .btn-create {
+      background: #28a745;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      padding: 12px 25px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+  </style>
+
   <h1 class="text-center mt-4">{% block header %}Posts{% endblock %}</h1>
 
   <div id="posts">
     {% for post in posts %}
-    <div class="card border-dark shadow-sm mb-4">
-      <div class="card-header bg-dark text-light d-flex justify-content-between align-items-center">
-        <a href="/posts/{{post.user.username}}" class="text-warning fw-bold">
-          <i class="fas fa-user"></i> {{post.user.username}}
-        </a>
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header">
+        <a href="/posts/{{ post.user.username }}" class="user-link">{{ post.user.username }}</a>
         <div>
-          <span id="likes-count-{{post.id}}" class="text-danger fw-bold">
+          <span id="likes-count-{{ post.id }}" class="text-danger fw-bold">
             {{ post.likes|length }}
-          </span> 
+          </span>
           {% if user.id in post.likes|map(attribute="author")|list %}
-          <i class="fas fa-heart text-danger like-button" id="like-button-{{post.id}}" onclick="like({{post.id}})"></i>
+          <i class="fas fa-heart text-danger like-button" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
           {% else %}
-          <i class="far fa-heart text-muted like-button" id="like-button-{{post.id}}" onclick="like({{post.id}})"></i>
-          {% endif %}
-
-          {% if user.id == post.author %}
-          <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown"></button>
-            <ul class="dropdown-menu">
-              <li>
-                <a href="/delete-post/{{post.id}}" class="dropdown-item text-danger">Delete</a>
-              </li>
-            </ul>
-          </div>
+          <i class="far fa-heart text-muted like-button" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
           {% endif %}
         </div>
       </div>
 
       <div class="card-body">
-        <p class="card-text">{{post.text}}</p>
+        <p class="card-text">{{ post.text }}</p>
 
-        <div class="collapse" id="comments-{{post.id}}">
-          <div class="card bg-light">
-            <div class="card-body" id="comments-expanded-{{post.id}}">
+        <div class="collapse" id="comments-{{ post.id }}">
+          <div class="comment-box">
+            <div class="card-body" id="comments-expanded-{{ post.id }}">
               {% for comment in post.comments %}
               <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
                 <div>
-                  <a href="/posts/{{comment.user.username}}" class="fw-bold text-primary">
-                    <i class="fas fa-comment"></i> {{comment.user.username}}
+                  <a href="/posts/{{ comment.user.username }}" class="fw-bold text-primary">
+                    <i class="fas fa-comment"></i> {{ comment.user.username }}
                   </a>:
-                  {{comment.text}}
+                  {{ comment.text }}
                 </div>
                 <div>
-                  <small class="text-muted">{{comment.date_created}}</small>
+                  <small class="text-muted">{{ comment.date_created }}</small>
                   {% if user.id == comment.author or user.id == post.author %}
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"></button>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a href="/delete-comment/{{comment.id}}" class="dropdown-item text-danger">Delete</a>
-                      </li>
-                    </ul>
-                  </div>
+                  <a href="/delete-comment/{{ comment.id }}" class="text-danger ms-2">Delete</a>
                   {% endif %}
                 </div>
               </div>
@@ -69,22 +160,22 @@
 
         <p class="mt-2">
           {% if post.comments|length > 0 %}
-          <a data-bs-toggle="collapse" href="#comments-{{post.id}}" role="button" class="text-decoration-none">
-            <small class="text-info fw-bold">View {{post.comments|length}} Comments</small>
+          <a data-bs-toggle="collapse" href="#comments-{{ post.id }}" role="button" class="text-decoration-none">
+            <small class="text-info fw-bold">View {{ post.comments|length }} Comments</small>
           </a>
           {% else %}
           <small class="text-muted">No Comments</small>
           {% endif %}
         </p>
 
-        <form class="input-group mb-3" method="POST" action="/create-comment/{{post.id}}">
+        <form class="input-group mb-3" method="POST" action="/create-comment/{{ post.id }}">
           <input type="text" id="text" name="text" class="form-control" placeholder="Comment something!" />
-          <button type="submit" class="btn btn-info text-light">Comment</button>
+          <button type="submit" class="btn-comment">Comment</button>
         </form>
       </div>
 
       <div class="card-footer text-muted text-end">
-        <small><i class="fas fa-clock"></i> {{post.date_created}}</small>
+        <small><i class="fas fa-clock"></i> {{ post.date_created }}</small>
       </div>
     </div>
     {% endfor %}
@@ -93,7 +184,7 @@
   {% block footer %}
   <div class="text-center mt-4">
     <a href="/create-post">
-      <button type="button" class="btn btn-success btn-lg shadow">
+      <button type="button" class="btn btn-create shadow">
         <i class="fas fa-plus-circle"></i> Create a Post
       </button>
     </a>
