@@ -12,6 +12,8 @@
 - Blog: Đăng bài viết, xóa bài viết,comment, like.
 - Admin có thể quản lý user (block, reset mật khẩu).
 
+## *Link web log : https://flask-tiny.onrender.com/welcome*
+
 ## Hướng dẫn cài đặt
 1. **Clone repo về máy tính của bạn**:
 
@@ -59,7 +61,5 @@ Sau khi cài đặt xong, bạn có thể chạy ứng dụng bằng cách:
 ```bash
 flask run
 
-=======
-# flask-tiny-app
-**link web log flask tiny app**
-https://flask-tiny.onrender.com/welcome
+======
+
