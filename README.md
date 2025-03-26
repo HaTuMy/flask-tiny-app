@@ -15,7 +15,7 @@
 ### *Link web (nếu bạn không muốn cài đặt) : https://flask-tiny.onrender.com/welcome*
 
 ## Hướng dẫn cài đặt
-**Cách 1: run install.bat**  
+**Cách 1: run file install.bat**  
 **Cách 2:**  
 1. **Clone repo về máy tính của bạn**:
 
