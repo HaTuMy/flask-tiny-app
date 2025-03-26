@@ -15,6 +15,8 @@
 ### *Link web (nếu bạn không muốn cài đặt) : https://flask-tiny.onrender.com/welcome*
 
 ## Hướng dẫn cài đặt
+Cách 1: run install.bat  
+Cách 2:   
 1. **Clone repo về máy tính của bạn**:
 
     ```bash
@@ -51,6 +53,9 @@
     ```
 
 ### 3. Chạy ứng dụng
+     ```bash
+    python app.py
+    ```
 Hướng dẫn chạy ứng dụng Flask.
 
 ```markdown
